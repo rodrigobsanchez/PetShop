@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar Cliente</title>
+</head>
+<body>
+<a href="http://localhost:8080">Go Back!</a>
+
+<form action="#" method="post" th:action="@{/cliente-form}">
+    Nome: <input nome="nome" th:field="${cliente.nome}"/><br />
+    CPF: <input nome="cpf"  th:field="${cliente.cpf}"/><br />
+    <input type="submit" value="Adicionar" />
+
+
+
+</form>
+
+<label th:text="${erro}" style="color:red"/>
+
+</body>
+</html>
+
+<!-- th:field= (...cliente,nome) -->

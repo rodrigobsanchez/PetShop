@@ -1,0 +1,70 @@
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar Animal</title>
+</head>
+<body>
+<form method="post" th:action="@{/animais-form(clientId=${param.clientId})}">
+
+    Nome: <input th:field="${animal.nome}"> <br>
+    Nascimento: <input name="dataNascimento"
+                       th:field="${animal.dataNascimento}" type="date"> <br>
+
+    <input name="clientId" th:value="${param.clientId}" type="hidden">
+
+    Espécie:
+    <select name="especie">
+
+        <option th:each="especie : ${especies}"
+                th:value="${especie}"
+                th:text="${especie}"></option>
+
+    </select>
+
+    <input type="submit" value="Adiciona Animal">
+
+</form>
+
+<label th:text="${erro}" style="color: red"/>
+
+
+</body>
+</html>
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Adicionar Animal</title>-->
+
+<!--</head>-->
+<!--<body>-->
+
+<!--<form method="post" th:action="@{/animal-form}">-->
+
+<!--    Nome: <input nome="nome" th:field="${animal.nome}"/><br />-->
+<!--    Nascimento: <input nome="dataNascimento" type="date" th:field="${animal.dataNascimento}"/><br />-->
+
+<!--    <input nome="clientId"th:field="${animal.clientId}" th:value="${param.clientId}" type="hidden"/><br />-->
+<!--    Especie:-->
+
+<!--    <select nome="especie"th:field="${animal.especie}">-->
+
+<!--        <option  th:each="especie : ${especies}"-->
+<!--                 th:value="${animal.especie}"-->
+<!--                 th:text="${especie}"></option>-->
+
+<!--    </select>-->
+<!--    <input type="submit" value="Adicionar Animal" />-->
+
+<!--</form>-->
+
+
+<!--</body>-->
+<!--</html>-->
+
