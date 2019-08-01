@@ -6,6 +6,8 @@ import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.model.Animal;
 import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.repository.AnimalRepository;
+import br.com.tt.petshop.repository.ClienteRepository;
+import jdk.nashorn.internal.lookup.MethodHandleFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +34,8 @@ public class AnimalServiceTest {
     private AnimalRepository animalRepository;
     @Mock
     private ClienteService clienteService;
+    @Mock
+    ClienteRepository clienteRepository;
 
     @Before
     public void setUp(){
@@ -46,7 +50,7 @@ public class AnimalServiceTest {
         assertNotNull("A lista nao deveria ser nula",animais);
 
         assertEquals("A lista deve conter uma lista vazia", 0, animais.size());
-        verify(animalRepository, times(1)).listar(1L);
+        verify(animalRepository, times(1)).findByClientId(1L);
     }
     @Test
     public void deveriaRetornarListComAnimais(){
@@ -57,8 +61,8 @@ public class AnimalServiceTest {
                 new Animal("Nemo", LocalDate.now().minusMonths(1), EspecieEnum.PEIXE, 1L));
         List<Animal> listaCliente02 = Arrays.asList(
                 new Animal("Velociraptor", LocalDate.now().minusYears(10000), EspecieEnum.REPTIL, 2L));
-        Mockito.when(animalRepository.listar(1L)).thenReturn(listaCliente01);
-        Mockito.when(animalRepository.listar(2L)).thenReturn(listaCliente02);
+        Mockito.when(animalRepository.findByClientId(1L)).thenReturn(listaCliente01);
+        Mockito.when(animalRepository.findByClientId(2L)).thenReturn(listaCliente02);
 
         //Act
         List<Animal> animaisCliente01 = animalService.listar(1L);
@@ -139,19 +143,29 @@ public class AnimalServiceTest {
                     TAMANHO_MININO_NOME), e.getMessage());
         }
     }
-
-    @Test
-    public void deveriaFalharClienteInadinplente() throws BusinessException{
-        Animal a1 = new Animal("bababs", LocalDate.now(), EspecieEnum.PEIXE, 10L );
-        Cliente novoCliente = new Cliente(10L, "André Ruim", "111.222.333-35");
-        boolean test = true;
-        List<Cliente> clientes = new ArrayList<>();
-        clientes = clienteService.listar();
-        clientes.add(novoCliente);
-        clientes.get(0).setInadimplente(test);
-        Cliente c = clientes.get(0);
-        animalService.salvar(a1);
-        // Assim que se faz em METODOS VOID.
-        //doThrow(BusinessException.class).when(clienteService).validarSeAdimplente(10L);
-    }
+// resolver esse metodo...
+//    @Test
+//    public void deveriaFalharClienteInadinplente() {
+//
+//        Animal a1 = new Animal("bababs", LocalDate.now(), EspecieEnum.PEIXE, 10L );
+//        Cliente novoCliente = new Cliente(35L, "André Ruim", "111.222.333-35");
+//        boolean test = true;
+//        List<Cliente> clientes = new ArrayList<>();
+//        clientes = clienteService.listar();
+//        clientes.add(novoCliente);
+//        clientes.get(0).setInadimplente(test);
+//        Cliente c = clientes.get(0);
+//        //Mockito.when(clienteRepository.find(35L)).thenReturn(c);
+//        try {
+//            animalService.salvar(a1);
+//            c.getMeusAnimais().add(a1);
+//            // Assim que se faz em METODOS VOID.
+//            doThrow(BusinessException.class).when(clienteService).validarSeAdimplente(35L);
+//            fail("Deveria ter lançado exceção...");
+//        } catch (BusinessException e) {
+//            assertEquals("Cliente não está adimplente!", e.getMessage());
+//        }
+//
+//
+//    }
 }

@@ -3,17 +3,28 @@ package br.com.tt.petshop.model;
 import br.com.tt.petshop.enums.EspecieEnum;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Entity
+// nomear a tabela --> @Table(name = "Tabela_Animal")
 public class Animal {
-
+    @Id
+    //gerar valor autormatico para Id primary (PRIMARY_KEY do SQL)do animal.
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // nomear a header de 'id'
+    @Column(name = "codigo")
+    private Long id;
     private String nome;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dataNascimento;
+
+    //make the relation to be an String
+    @Enumerated(EnumType.STRING)
     private EspecieEnum especie;
-    private List<Vacina> vacinas;
-    private List<Procedimento> procedimentos;
+//    private List<Vacina> vacinas;
+//    private List<Procedimento> procedimentos;
     private Long clientId;
 
     // tem que ter os dois construtories esse o default e o outro... logo abaixo
@@ -63,21 +74,21 @@ public class Animal {
         this.clientId = clientId;
     }
 
-    public List<Vacina> getVacinas() {
-        return vacinas;
-    }
+//    public List<Vacina> getVacinas() {
+//        return vacinas;
+//    }
 
-    public void setVacinas(List<Vacina> vacinas) {
-        this.vacinas = vacinas;
-    }
-
-    public List<Procedimento> getProcedimentos() {
-        return procedimentos;
-    }
-
-    public void setProcedimentos(List<Procedimento> procedimentos) {
-        this.procedimentos = procedimentos;
-    }
+//    public void setVacinas(List<Vacina> vacinas) {
+//        this.vacinas = vacinas;
+//    }
+//
+//    public List<Procedimento> getProcedimentos() {
+//        return procedimentos;
+//    }
+//
+//    public void setProcedimentos(List<Procedimento> procedimentos) {
+//        this.procedimentos = procedimentos;
+//    }
 
 
 

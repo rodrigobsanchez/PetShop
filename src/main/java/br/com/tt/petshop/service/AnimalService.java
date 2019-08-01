@@ -36,7 +36,8 @@ public class AnimalService {
     }
 
     public List<Animal> listar(long clientId){
-        return animalRepository.listar(clientId);
+        //findbyClientId é criado na interface AnimalRepository... ATENCAO pois isso será a relcao com banco de dados.
+        return animalRepository.findByClientId(clientId);
 
     }
 
