@@ -1,16 +1,24 @@
 package br.com.tt.petshop.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class Cliente {
 
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
+    @Column(name ="NOME_CLIENTE")
     private String nome;
+    @Column(name = "CPF_CLIENTE")
     private String cpf;
+    @Column(name = "INADIMPLENTE")
     private Boolean inadimplente;
-    private List<Animal> meusAnimais;
+//    private List<Animal> meusAnimais;
 
 
 
@@ -23,7 +31,7 @@ public class Cliente {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
-        this.meusAnimais = new ArrayList<Animal>();
+        //this.meusAnimais = new ArrayList<Animal>();
         this.inadimplente = Boolean.FALSE;
     }
 
@@ -84,14 +92,14 @@ public class Cliente {
     public void setInadimplente(Boolean inadimplente) {
         this.inadimplente = inadimplente;
     }
-
-    public List<Animal> getMeusAnimais() {
-        return meusAnimais;
-    }
-
-    public void setMeusAnimais(List<Animal> meusAnimais) {
-        this.meusAnimais = meusAnimais;
-    }
+//
+//    public List<Animal> getMeusAnimais() {
+//        return meusAnimais;
+//    }
+//
+//    public void setMeusAnimais(List<Animal> meusAnimais) {
+//        this.meusAnimais = meusAnimais;
+//    }
 
 
 

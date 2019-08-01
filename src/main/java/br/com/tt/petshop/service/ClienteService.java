@@ -5,12 +5,15 @@ import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
+@Table(name = "TB_CLIENTE")
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
@@ -89,7 +92,7 @@ public class ClienteService {
     }
 
     public void validarSeAdimplente(Long clientId) throws BusinessException {
-        Cliente cliente = clienteRepository.find(clientId);
+        Cliente cliente = clienteRepository.getOne(clientId);
 
         if(cliente.isInadimplente()){
             throw new BusinessException("Cliente não está adimplente!");

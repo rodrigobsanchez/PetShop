@@ -184,7 +184,7 @@ public class ClienteServiceTest {
         clientes.add(novoCliente);
         clientes.get(0).setInadimplente(test);
         Cliente c = clientes.get(0);
-        Mockito.when(clienteRepository.find(10L)).thenReturn(c);
+        Mockito.when(clienteRepository.getOne(10L)).thenReturn(c);
         //Mockito.when(clienteRepository.findAll()).thenReturn(clientes);
         try {
             clienteService.validarSeAdimplente(10L);
