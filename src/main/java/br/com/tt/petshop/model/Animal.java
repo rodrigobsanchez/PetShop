@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 // nomear a tabela --> @Table(name = "Tabela_Animal")
+@Table(name = "tb_animal")
 public class Animal {
     @Id
     //gerar valor autormatico para Id primary (PRIMARY_KEY do SQL)do animal.
