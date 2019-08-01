@@ -13,7 +13,7 @@ import java.util.Optional;
 
 
 @Service
-@Table(name = "TB_CLIENTE")
+
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
