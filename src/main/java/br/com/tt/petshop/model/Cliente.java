@@ -1,5 +1,8 @@
 package br.com.tt.petshop.model;
 
+import br.com.tt.petshop.model.vo.Cpf;
+import org.hibernate.validator.constraints.br.CPF;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +18,31 @@ public class Cliente {
     private Long id;
     @Column(name ="NOME_CLIENTE")
     private String nome;
-    @Column(name = "CPF_CLIENTE")
-    private String cpf;
+
+    //**************
+    @Embedded
+    private Cpf cpf;
     @Column(name = "INADIMPLENTE")
     private Boolean inadimplente;
-//    private List<Animal> meusAnimais;
 
+    // mappedBy - indica qual campo será a referencia na Tabela Cliente
+    @OneToMany(mappedBy = "cliente")
+    private List<Animal> meusAnimais;
+
+/*
+ fetch = FetchType.LAZY ou .EAGER
+   fetch = como ele deve pegar a entidade cliente... perigoso a utilizacao...
+      FetchType LAZY = utilizado na listas... quando se utiliza o get de 'meus animais' ele utlizará o minimo de selects necessarios para
+      pegar os dados das tabelas...
+      Fetch EAGER ira usar fetch (usará todos os selects que tem....)
+ */
+/*
+, cascade = {CascadeType.REMOVE, CascadeType.MERGE}
+  cascade = quando se quiser salvar o cliente...
+  .MERGE = save update..
+  .ALL - todas as operacoes
+  .DETACH parte do ciclo de vida de uma entidade.
+ */
 
 
 
@@ -31,7 +53,7 @@ public class Cliente {
     public Cliente(Long id, String nome, String cpf) {
         this.id = id;
         this.nome = nome;
-        this.cpf = cpf;
+        this.cpf = new Cpf(cpf);
         //this.meusAnimais = new ArrayList<Animal>();
         this.inadimplente = Boolean.FALSE;
     }
@@ -74,13 +96,6 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
 
     public Boolean isInadimplente(){
         return Objects.nonNull(inadimplente) && inadimplente;
@@ -93,14 +108,24 @@ public class Cliente {
     public void setInadimplente(Boolean inadimplente) {
         this.inadimplente = inadimplente;
     }
-//
-//    public List<Animal> getMeusAnimais() {
-//        return meusAnimais;
-//    }
-//
-//    public void setMeusAnimais(List<Animal> meusAnimais) {
-//        this.meusAnimais = meusAnimais;
-//    }
+
+    public Cpf getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(Cpf cpf) {
+        this.cpf = cpf;
+    }
+
+
+
+    public List<Animal> getMeusAnimais() {
+        return meusAnimais;
+    }
+
+    public void setMeusAnimais(List<Animal> meusAnimais) {
+        this.meusAnimais = meusAnimais;
+    }
 
 
 

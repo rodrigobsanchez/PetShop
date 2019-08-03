@@ -11,9 +11,11 @@
 
     Nome: <input th:field="${animal.nome}"> <br>
     Nascimento: <input name="dataNascimento"
-                       th:field="${animal.dataNascimento}" type="date"> <br>
+                       th:field="${animal.dataNascimento.data}" type="date"> <br>
 
-    <input name="clientId" th:value="${param.clientId}" type="hidden">
+    <input name="clientId"
+           th:field="${animal.cliente.id}"
+           th:value="${param.clientId}" type="hidden">
 
     Espécie:
     <select name="especie">

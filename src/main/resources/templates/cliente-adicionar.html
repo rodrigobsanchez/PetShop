@@ -9,7 +9,7 @@
 
 <form action="#" method="post" th:action="@{/cliente-form}">
     Nome: <input nome="nome" th:field="${cliente.nome}"/><br />
-    CPF: <input nome="cpf"  th:field="${cliente.cpf}"/><br />
+    CPF: <input nome="cpf"  th:field="${cliente.cpf.valor}"/><br />
     <input type="submit" value="Adicionar" />
 
 

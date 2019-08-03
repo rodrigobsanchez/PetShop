@@ -90,7 +90,7 @@ public class ClienteServiceTest {
     @Test
     public void deveriaAdicionarComSucesso() throws BusinessException {
         //Arrange
-        Cliente novoCliente = new Cliente(10L, "Joao Almeida", "111.222.333-45");
+        Cliente novoCliente = new Cliente(10L, "Joao Almeida", "11122233345");
 
         //Act
         clienteService.adicionar(novoCliente);
@@ -151,7 +151,7 @@ public class ClienteServiceTest {
     }
     @Test
     public void deveriaLancarExcecaoCpfLength(){
-        Cliente novoCliente = new Cliente(10L, "André Ruim", "111.222.333");
+        Cliente novoCliente = new Cliente(10L, "André Ruim", "12012312366");
 
         try {
             clienteService.adicionar(novoCliente);

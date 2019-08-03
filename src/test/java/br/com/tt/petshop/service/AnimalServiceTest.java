@@ -50,7 +50,7 @@ public class AnimalServiceTest {
         assertNotNull("A lista nao deveria ser nula",animais);
 
         assertEquals("A lista deve conter uma lista vazia", 0, animais.size());
-        verify(animalRepository, times(1)).findByClientId(1L);
+        verify(animalRepository, times(1)).findByClienteId(1L);
     }
     @Test
     public void deveriaRetornarListComAnimais(){
@@ -61,8 +61,8 @@ public class AnimalServiceTest {
                 new Animal("Nemo", LocalDate.now().minusMonths(1), EspecieEnum.PEIXE, 1L));
         List<Animal> listaCliente02 = Arrays.asList(
                 new Animal("Velociraptor", LocalDate.now().minusYears(10000), EspecieEnum.REPTIL, 2L));
-        Mockito.when(animalRepository.findByClientId(1L)).thenReturn(listaCliente01);
-        Mockito.when(animalRepository.findByClientId(2L)).thenReturn(listaCliente02);
+        Mockito.when(animalRepository.findByClienteId(1L)).thenReturn(listaCliente01);
+        Mockito.when(animalRepository.findByClienteId(2L)).thenReturn(listaCliente02);
 
         //Act
         List<Animal> animaisCliente01 = animalService.listar(1L);

@@ -1,6 +1,7 @@
 package br.com.tt.petshop.model;
 
 import br.com.tt.petshop.enums.EspecieEnum;
+import br.com.tt.petshop.model.vo.DataNascimento;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -18,29 +19,56 @@ public class Animal {
     @Column(name = "codigo")
     private Long id;
     private String nome;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate dataNascimento;
+    @Embedded
+    private DataNascimento dataNascimento;
 
     //make the relation to be an String
     @Enumerated(EnumType.STRING)
     private EspecieEnum especie;
 //    private List<Vacina> vacinas;
 //    private List<Procedimento> procedimentos;
-    private Long clientId;
+
+//    @Column (name = "client_id", updatable = false, insertable = false)
+//    private Long clientId;
+    /*
+    Esse é um meio de usar as duas variávveis....
+     */
+
+
+    //Essas duas annotattions sempre utilizadas juntas...no caso a lista de animais possui um client ID
+    @ManyToOne
+    @JoinColumn (name = "CLIENT_ID")
+    private Cliente cliente;
+
 
     // tem que ter os dois construtories esse o default e o outro... logo abaixo
     public Animal(){
-
+        this.dataNascimento = new DataNascimento();
     }
 
 
     public Animal(String nome, LocalDate dataNascimento, EspecieEnum especie, Long clientId) {
         this.nome = nome;
-        this.dataNascimento = dataNascimento;
+        this.dataNascimento = new DataNascimento(dataNascimento);
         this.especie = especie;
-        this.clientId = clientId;
+        this.cliente = new Cliente(clientId, null , null);
     }
 
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+    public DataNascimento getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(DataNascimento dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
     public EspecieEnum getEspecie() {
         return especie;
     }
@@ -57,23 +85,14 @@ public class Animal {
         this.nome = nome;
     }
 
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
-
-    public Long getClientId() {
-
-        return clientId;
-    }
-
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
-    }
+//    public Long getClientId() {
+//
+//        return clientId;
+//    }
+//
+//    public void setClientId(Long clientId) {
+//        this.clientId = clientId;
+//    }
 
 //    public List<Vacina> getVacinas() {
 //        return vacinas;

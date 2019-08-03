@@ -37,7 +37,7 @@ public class AnimalService {
 
     public List<Animal> listar(long clientId){
         //findbyClientId é criado na interface AnimalRepository... ATENCAO pois isso será a relcao com banco de dados.
-        return animalRepository.findByClientId(clientId);
+        return animalRepository.findByClienteId(clientId);
 
     }
 
@@ -46,9 +46,9 @@ public class AnimalService {
             throw new IllegalArgumentException("Animal deve ser informado!");
         }
 
-        validarSeDataNascimentoMenorOuIgualHoje(animal.getDataNascimento());
+        validarSeDataNascimentoMenorOuIgualHoje(animal.getDataNascimento().getData());
         validarTamanhoMinimoNome(animal.getNome());
-        clienteService.validarSeAdimplente(animal.getClientId());
+        clienteService.validarSeAdimplente(animal.getCliente().getId());
 
         animalRepository.save(animal);
     }

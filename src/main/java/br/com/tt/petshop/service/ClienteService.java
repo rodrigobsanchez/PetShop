@@ -2,6 +2,7 @@ package br.com.tt.petshop.service;
 
 import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.model.Cliente;
+import br.com.tt.petshop.model.vo.Cpf;
 import br.com.tt.petshop.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 
@@ -77,18 +78,28 @@ public class ClienteService {
 
 
     private void validaCpf(Cliente novoCliente) throws BusinessException {
+           Cpf cpf = novoCliente.getCpf();
+        if(cpf == null || !cpf.isValid()){
+              if(cpf.getValor().length() != 11 && cpf != null) {
+                  throw new BusinessException("Informe seu CPF com 11 dígitos");
+               } else{
+                  throw new BusinessException("Informe seu CPF!!.");
+              }
+            }
 
-        if(Objects.isNull(novoCliente) || Objects.isNull(novoCliente.getCpf())){
-            throw new BusinessException("Informe seu CPF!!.");
-        }
     // .replaceAll para retirar os special character '.' '-' do CPF.
-        String cpf = novoCliente.getCpf().replaceAll("\\D", "");
 
-        if(cpf.length() != 11){
+        String temp = novoCliente.getCpf().getValor().replaceAll("\\D", "");
+        Cpf cpfTemp = novoCliente.getCpf();
+
+        cpfTemp.setValor(temp);
+
+        if(cpfTemp.getValor().length() != 11){
             throw new BusinessException("Informe seu CPF com 11 dígitos");
-        } else{
-            novoCliente.setCpf(cpf);
         }
+//        else{
+//            novoCliente.setCpf(cpf);
+//        }
     }
 
     public void validarSeAdimplente(Long clientId) throws BusinessException {
