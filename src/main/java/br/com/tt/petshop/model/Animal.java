@@ -2,14 +2,12 @@ package br.com.tt.petshop.model;
 
 import br.com.tt.petshop.enums.EspecieEnum;
 import br.com.tt.petshop.model.vo.DataNascimento;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
-// nomear a tabela --> @Table(name = "Tabela_Animal")
+
 @Table(name = "tb_animal")
 public class Animal {
     @Id

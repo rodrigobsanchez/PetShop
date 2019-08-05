@@ -6,11 +6,9 @@ import br.com.tt.petshop.model.vo.Cpf;
 import br.com.tt.petshop.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 
 @Service
@@ -79,28 +77,19 @@ public class ClienteService {
 
     private void validaCpf(Cliente novoCliente) throws BusinessException {
            Cpf cpf = novoCliente.getCpf();
-        if(cpf == null || !cpf.isValid()){
-              if(cpf.getValor().length() != 11 && cpf != null) {
-                  throw new BusinessException("Informe seu CPF com 11 dígitos");
-               } else{
-                  throw new BusinessException("Informe seu CPF!!.");
-              }
-            }
 
-    // .replaceAll para retirar os special character '.' '-' do CPF.
-
-        String temp = novoCliente.getCpf().getValor().replaceAll("\\D", "");
-        Cpf cpfTemp = novoCliente.getCpf();
-
-        cpfTemp.setValor(temp);
-
-        if(cpfTemp.getValor().length() != 11){
+        if (Objects.isNull(cpf) || Objects.isNull(cpf.getValor())) {
+            throw new BusinessException("Informe seu CPF!!.");
+        }
+            // .replaceAll para retirar os special character '.' '-' do CPF.
+           String temp = novoCliente.getCpf().getValor().replaceAll("\\D", "");
+        if(temp.length() != 11){
             throw new BusinessException("Informe seu CPF com 11 dígitos");
         }
-//        else{
-//            novoCliente.setCpf(cpf);
-//        }
     }
+
+
+
 
     public void validarSeAdimplente(Long clientId) throws BusinessException {
         Cliente cliente = clienteRepository.getOne(clientId);

@@ -4,24 +4,22 @@ package br.com.tt.petshop.service;
 import br.com.tt.petshop.enums.EspecieEnum;
 import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.model.Animal;
-import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.repository.AnimalRepository;
 import br.com.tt.petshop.repository.ClienteRepository;
-import jdk.nashorn.internal.lookup.MethodHandleFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 //ou MockitoAnnotations.initMocks(this)
