@@ -5,16 +5,16 @@ import br.com.tt.petshop.model.vo.DataNascimento;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-
 @Table(name = "tb_animal")
 public class Animal {
     @Id
     //gerar valor autormatico para Id primary (PRIMARY_KEY do SQL)do animal.
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // nomear a header de 'id'
-    @Column(name = "codigo")
+    @Column(name = "ID_ANIMAL")
     private Long id;
     private String nome;
     @Embedded
@@ -32,12 +32,17 @@ public class Animal {
     Esse é um meio de usar as duas variávveis....
      */
 
-
     //Essas duas annotattions sempre utilizadas juntas...no caso a lista de animais possui um client ID
     @ManyToOne
-    @JoinColumn (name = "CLIENT_ID")
+    @JoinColumn (name = "ID_CLIENTE")
     private Cliente cliente;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_UNIDADE")
+    private Unidade unidade;
+
+    @OneToMany(mappedBy = "animal")
+    private List<Produto> produtos;
 
     // tem que ter os dois construtories esse o default e o outro... logo abaixo
     public Animal(){
@@ -49,9 +54,20 @@ public class Animal {
         this.nome = nome;
         this.dataNascimento = new DataNascimento(dataNascimento);
         this.especie = especie;
-        this.cliente = new Cliente(clientId, null , null);
+        this.cliente = new Cliente(clientId, null , null, null, null);
+        this.unidade = new Unidade(null, null);
+        unidade.setId(1L);
     }
 
+
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
 
     public Cliente getCliente() {
         return cliente;
@@ -83,31 +99,21 @@ public class Animal {
         this.nome = nome;
     }
 
-//    public Long getClientId() {
-//
-//        return clientId;
-//    }
-//
-//    public void setClientId(Long clientId) {
-//        this.clientId = clientId;
-//    }
 
-//    public List<Vacina> getVacinas() {
-//        return vacinas;
-//    }
+    public Long getId() {
+        return id;
+    }
 
-//    public void setVacinas(List<Vacina> vacinas) {
-//        this.vacinas = vacinas;
-//    }
-//
-//    public List<Procedimento> getProcedimentos() {
-//        return procedimentos;
-//    }
-//
-//    public void setProcedimentos(List<Procedimento> procedimentos) {
-//        this.procedimentos = procedimentos;
-//    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public Unidade getUnidade() {
+        return unidade;
+    }
 
+    public void setUnidade(Unidade unidade) {
+        this.unidade = unidade;
+    }
 
 }

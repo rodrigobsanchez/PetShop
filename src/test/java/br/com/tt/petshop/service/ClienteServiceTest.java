@@ -62,8 +62,8 @@ public class ClienteServiceTest {
 
         //Arrange - Setup!
         List<Cliente> listaClientes = new ArrayList<>();
-        listaClientes.add(new Cliente(1L,"Fulano", "000.111.222-33"));
-        listaClientes.add(new Cliente(2L,"Beatriz", "000.111.222-99"));
+        listaClientes.add(new Cliente(1L,"Fulano", "000.111.222-33", null, null));
+        listaClientes.add(new Cliente(2L,"Beatriz", "000.111.222-99", null, null));
         clienteRepository.save(listaClientes.get(0));
         clienteRepository.save(listaClientes.get(1));
         Mockito.when(clienteRepository.findAll()).thenReturn(listaClientes);
@@ -79,7 +79,7 @@ public class ClienteServiceTest {
         clienteService.remover(12L);
 
         //Assert
-        Cliente clienteDeletado = new Cliente (12L, null, null);
+        Cliente clienteDeletado = new Cliente (12L, null, null, null, null);
         //usar verify sempre se uma classe utilizou a outra.
         Mockito.verify(clienteRepository).delete(clienteDeletado);
         //Mockito.verifyNoMoreInteractions(clienteRepository);
@@ -90,7 +90,7 @@ public class ClienteServiceTest {
     @Test
     public void deveriaAdicionarComSucesso() throws BusinessException {
         //Arrange
-        Cliente novoCliente = new Cliente(10L, "Joao Almeida", "11122233345");
+        Cliente novoCliente = new Cliente(10L, "Joao Almeida", "11122233345", null, null);
 
         //Act
         clienteService.adicionar(novoCliente);
@@ -103,7 +103,7 @@ public class ClienteServiceTest {
 
     @Test
     public void deveriaLancarExcecaoDeNomeNull(){
-        Cliente novoCliente = new Cliente(10L, null, "111.222.333-45");
+        Cliente novoCliente = new Cliente(10L, null, "111.222.333-45", null, null);
 
         try {
             clienteService.adicionar(novoCliente);
@@ -114,7 +114,7 @@ public class ClienteServiceTest {
     }
    @Test
    public void deveriaLancarExcecaodeDoisNomes(){
-       Cliente novoCliente = new Cliente(10L, "TARDELLI", "111.222.333-45");
+       Cliente novoCliente = new Cliente(10L, "TARDELLI", "111.222.333-45", null, null);
 
        try {
            clienteService.adicionar(novoCliente);
@@ -127,7 +127,7 @@ public class ClienteServiceTest {
 
    @Test
    public void deveriaLancarExcecaoDasAbreviações(){
-       Cliente novoCliente = new Cliente(10L, "João A", "111.222.333-45");
+       Cliente novoCliente = new Cliente(10L, "João A", "111.222.333-45", null, null);
 
        try{
            clienteService.adicionar(novoCliente);
@@ -139,7 +139,7 @@ public class ClienteServiceTest {
 
     @Test
     public void deveriaLancarExcecaoDeCPFNull(){
-        Cliente novoCliente = new Cliente(10L, "André Ruim", null);
+        Cliente novoCliente = new Cliente(10L, "André Ruim", null, null, null);
 
         try {
             clienteService.adicionar(novoCliente);
@@ -151,7 +151,7 @@ public class ClienteServiceTest {
     }
     @Test
     public void deveriaLancarExcecaoCpfLength(){
-        Cliente novoCliente = new Cliente(10L, "André Ruim", "12012312366");
+        Cliente novoCliente = new Cliente(10L, "André Ruim", "12012312366", null, null);
 
         try {
             clienteService.adicionar(novoCliente);
@@ -172,17 +172,17 @@ public class ClienteServiceTest {
     @Test
     public void deveriaLancarExceptionDeInadimplente() {
 
-        Cliente novoCliente = new Cliente(10L, "André Ruim", "111.222.333-35");
-        boolean test = true;
-
-        List<Cliente> clientes = new ArrayList<Cliente>(Arrays.asList(
-                new Cliente(1L,"Josnei" , "12345678"),
-                new Cliente(2L,"Fulano", "12245678"),
-                new Cliente(3L,"Asdruba", "11125678")
-        ));
+        Cliente novoCliente = new Cliente(10L, "André Ruim", "111.222.333-35", true, null);
+//        boolean test = true;
+        List<Cliente> clientes;
+//         = new ArrayList<Cliente>(Arrays.asList(
+//                new Cliente(1L,"Josnei" , "12345678"),
+//                new Cliente(2L,"Fulano", "12245678"),
+//                new Cliente(3L,"Asdruba", "11125678")
+//        ));
         clientes = clienteService.listar();
         clientes.add(novoCliente);
-        clientes.get(0).setInadimplente(test);
+
         Cliente c = clientes.get(0);
         Mockito.when(clienteRepository.getOne(10L)).thenReturn(c);
         //Mockito.when(clienteRepository.findAll()).thenReturn(clientes);

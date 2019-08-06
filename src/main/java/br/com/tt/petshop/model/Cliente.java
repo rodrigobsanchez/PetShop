@@ -29,6 +29,10 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     private List<Animal> meusAnimais;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_UNIDADE")
+    private Unidade unidade;
+
 /*
  fetch = FetchType.LAZY ou .EAGER
    fetch = como ele deve pegar a entidade cliente... perigoso a utilizacao...
@@ -50,12 +54,14 @@ public class Cliente {
         this.inadimplente = Boolean.FALSE;
     }
 
-    public Cliente(Long id, String nome, String cpf) {
+    public Cliente(Long id, String nome, String cpf, Boolean b, Long unidadeId) {
         this.id = id;
         this.nome = nome;
         this.cpf = new Cpf(cpf);
         //this.meusAnimais = new ArrayList<Animal>();
         this.inadimplente = Boolean.FALSE;
+        this.unidade = new Unidade(null, null);
+        unidade.setId(unidadeId);
     }
 
 
@@ -79,6 +85,13 @@ public class Cliente {
 
 
 
+    public Unidade getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(Unidade unidade) {
+        this.unidade = unidade;
+    }
 
     public Long getId() {
         return id;

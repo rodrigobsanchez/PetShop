@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class AnimalController {
     public String salvar(Model model, Animal animal, @RequestParam Long clientId){
 
         try {
-            animal.setCliente(new Cliente(clientId, null, null));
+            animal.setCliente(new Cliente(clientId, null, null, null, null));
             animalService.salvar(animal);
             return String.format("redirect:/animais-listar?clientId=%s", animal.getCliente().getId());
 
@@ -57,14 +58,15 @@ public class AnimalController {
             return adicionar(model);
         }
     }
-
-//    @GetMapping("/animal-excluir")   //?id={id}
-//    public RedirectView animalExcluir(@RequestParam Long clientId){
-//        Animal animal = new Animal();
-//        animal.setClientId(clientId);
+//    @GetMapping("/animal_excluir")
+//    public RedirectView excluirAnimal(@RequestParam Long clientId, Animal a){
+//        Cliente cliente = new Cliente();
+//        cliente.setId(clientId);
+//       a.setCliente(cliente);
+//        animalService.excluirAnimal(a);
 //
-//        animalService.remover(name);
 //        return new RedirectView("/");
+//
 //    }
 
     private List<String> listarEspecies() {

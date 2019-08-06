@@ -3,8 +3,10 @@ package br.com.tt.petshop.service;
 import br.com.tt.petshop.enums.EspecieEnum;
 import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.model.Animal;
+import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.repository.AnimalRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -76,4 +78,11 @@ public class AnimalService {
 
     }
 
+
+    public void excluirAnimal(Cliente cliente) {
+        Animal animal = new Animal();
+        animalRepository.delete(animal);
+    }
 }
+
+
