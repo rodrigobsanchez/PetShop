@@ -2,6 +2,7 @@ package br.com.tt.petshop.model;
 
 import br.com.tt.petshop.enums.EspecieEnum;
 import br.com.tt.petshop.model.vo.DataNascimento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -35,6 +36,8 @@ public class Animal {
     //Essas duas annotattions sempre utilizadas juntas...no caso a lista de animais possui um client ID
     @ManyToOne
     @JoinColumn (name = "ID_CLIENTE")
+    //Json ignore é necessario pois o cliente possui uma lista de animais...e animal ´possui cliente.
+    @JsonIgnore
     private Cliente cliente;
 
     @ManyToOne

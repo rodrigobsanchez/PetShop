@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
@@ -35,12 +36,12 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
-    public void adicionar(Cliente novoCliente) throws BusinessException {
+    public Cliente adicionar(Cliente novoCliente) throws BusinessException {
 
         validaNome(novoCliente);
         validaCpf(novoCliente);
         checkUser(novoCliente);
-        clienteRepository.save(novoCliente);
+        return clienteRepository.save(novoCliente);
     }
 
     private void checkUser(Cliente novoCliente) throws BusinessException {
@@ -96,6 +97,20 @@ public class ClienteService {
 
         if(cliente.isInadimplente()){
             throw new BusinessException("Cliente não está adimplente!");
+        }
+    }
+
+    public Optional<Cliente> findById(Long id) {
+        return clienteRepository.findById(id);
+    }
+    public void update(Long id, Cliente cliente) throws BusinessException {
+        Optional<Cliente> c =  this.findById(id);
+        if(c.isPresent()){
+            Cliente clienteSalvo = c.get();
+            clienteSalvo.setNome("NovoNome");
+            clienteSalvo.setInadimplente(clienteSalvo.isInadimplente());
+            clienteRepository.save(cliente);
+
         }
     }
 }
