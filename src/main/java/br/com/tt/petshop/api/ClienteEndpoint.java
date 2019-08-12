@@ -1,9 +1,11 @@
 package br.com.tt.petshop.api;
 
 
+import br.com.tt.petshop.dto.ClienteDto;
 import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.service.ClienteService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +20,12 @@ import java.util.Optional;
 public class ClienteEndpoint {
 
     private final ClienteService clienteService;
+    private final ModelMapper mapper;
 
 
-    public ClienteEndpoint(ClienteService clienteService) {
+    public ClienteEndpoint(ClienteService clienteService, ModelMapper mapper) {
         this.clienteService = clienteService;
+        this.mapper = mapper;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -38,14 +42,20 @@ public class ClienteEndpoint {
      }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Cliente> findById(@PathVariable Long id) {
+    public ResponseEntity<ClienteDto> findById(@PathVariable Long id) {
         Optional<Cliente> clienteOpt = clienteService.findById(id);
         if (clienteOpt.isPresent()) {
-            return ResponseEntity.ok(clienteOpt.get());
+            ClienteDto dto = mapper.map(clienteOpt.get(), ClienteDto.class);
+            return ResponseEntity.ok(dto);
+
         }
         return ResponseEntity.notFound().build();
 
     }
+
+    /*
+    Aqui no findById ele irá converter esse ClienteDto no Cliente oficinal...
+     */
 
     @PatchMapping(value = "/{id}")
     public ResponseEntity update(@RequestBody Cliente cliente, @PathVariable Long id) throws BusinessException {
