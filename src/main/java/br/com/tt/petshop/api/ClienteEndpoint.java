@@ -54,7 +54,8 @@ public class ClienteEndpoint {
     }
 
     /*
-    Aqui no findById ele irá converter esse ClienteDto no Cliente oficinal...
+       Aqui no findById ele irá converter esse ClienteDto no Cliente oficinal... Esse procedimento é feito para nao expor a entidade real do programa
+    a qual seria uma 'pratica ruim'
      */
 
     @PatchMapping(value = "/{id}")
