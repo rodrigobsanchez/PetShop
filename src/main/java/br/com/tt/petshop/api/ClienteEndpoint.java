@@ -10,9 +10,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/clientes")
@@ -29,15 +31,16 @@ public class ClienteEndpoint {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Cliente>> findAll(){
-        return ResponseEntity.ok(clienteService.listar());
+    public ResponseEntity<List<ClienteDto>> findAll(){
+        return ResponseEntity.ok(clienteService.listar().stream()
+        .map( c -> mapper.map(c, ClienteDto.class)).collect(Collectors.toList()));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity create(@RequestBody Cliente cliente) throws BusinessException {
-
+    public ResponseEntity create(@RequestBody @Valid ClienteDto clienteDto) throws BusinessException {
+         // @Valid é necessario por causa do javax.validation annotations @NotBlack, @Size
         URI uri = URI.create(String.format("/clientes/%d",
-                clienteService.adicionar(cliente).getId()));
+                clienteService.adicionar(mapper.map(clienteDto, Cliente.class)).getId()));
         return ResponseEntity.created(uri).build();
      }
 

@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -34,15 +35,17 @@ public class AnimalServiceTest {
     private ClienteService clienteService;
     @Mock
     ClienteRepository clienteRepository;
+    @Mock
+    private ModelMapper mapper;
 
     @Before
     public void setUp(){
-        animalService = new AnimalService(animalRepository,clienteService);
+        animalService = new AnimalService(animalRepository,clienteService, mapper);
     }
 
     @Test
     public void deverriaRetornarListaVazia(){
-        animalService = new AnimalService(animalRepository,clienteService);
+        animalService = new AnimalService(animalRepository,clienteService, mapper);
         List<Animal> animais = animalService.listar(1L);
        // animais.add( new Animal("Rex", LocalDate.now(), EspecieEnum.MAMIFERO, 1L));
         assertNotNull("A lista nao deveria ser nula",animais);

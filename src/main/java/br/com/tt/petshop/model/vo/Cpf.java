@@ -1,6 +1,8 @@
 package br.com.tt.petshop.model.vo;
 
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -8,6 +10,7 @@ import javax.persistence.Embeddable;
 public class Cpf {
 
    @Column(name="CPF_CLIENTE")
+   @CPF
     private String valor;
 
     public Cpf() {

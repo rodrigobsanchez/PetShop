@@ -1,17 +1,24 @@
 package br.com.tt.petshop.service;
 
+import br.com.tt.petshop.dto.AnimalDto;
 import br.com.tt.petshop.enums.EspecieEnum;
 import br.com.tt.petshop.exception.BusinessException;
+import br.com.tt.petshop.exception.ClienteNotFoundException;
 import br.com.tt.petshop.model.Animal;
 import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.repository.AnimalRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.view.RedirectView;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class AnimalService {
@@ -19,13 +26,16 @@ public class AnimalService {
     //make it 'final' will make you do the constructor.
 
     private static final int TAMANHO_MININO_NOME = 3;
+
     private final AnimalRepository animalRepository;
     private final ClienteService clienteService;
+    private final ModelMapper mapper;
 
-    public AnimalService(AnimalRepository animalRepository, ClienteService clienteService)
+    public AnimalService(AnimalRepository animalRepository, ClienteService clienteService, ModelMapper mapper)
     {
         this.animalRepository = animalRepository;
         this.clienteService = clienteService;
+        this.mapper = mapper;
     }
 
     public List<String> listarEspecies() {
@@ -43,7 +53,18 @@ public class AnimalService {
 
     }
 
-    public void salvar(Animal animal) throws BusinessException {
+    public Animal salvar(@NotNull @Valid AnimalDto animalDto) throws BusinessException {
+        Optional<Cliente> cliente = clienteService.findById(animalDto.getClienteId());
+        Animal animal = mapper.map(animalDto, Animal.class);
+        // .get() é uma função do Optional...é necessário o isPresent() function...
+        animal.setCliente(cliente.orElseThrow(ClienteNotFoundException:: new));
+        return salvar(animal);
+    }
+    /*
+    @deprecaterd Utilizar o salvar(animalDto) que possui o id do cliente.
+     */
+    @Deprecated
+    public Animal salvar(Animal animal) throws BusinessException {
         if(Objects.isNull(animal)){
             throw new IllegalArgumentException("Animal deve ser informado!");
         }
@@ -52,7 +73,7 @@ public class AnimalService {
         validarTamanhoMinimoNome(animal.getNome());
         clienteService.validarSeAdimplente(animal.getCliente().getId());
 
-        animalRepository.save(animal);
+        return animalRepository.save(animal);
     }
 
     private void validarTamanhoMinimoNome(String nome) throws BusinessException {
@@ -77,7 +98,17 @@ public class AnimalService {
         }
 
     }
+    public List<Animal> listarByExample(Optional<Long> clienteId, Optional<String> nome) {
 
+        Animal animal = new Animal();
+        if (clienteId.isPresent()) {
+            animal.setCliente(new Cliente(clienteId.get()));
+        }
+        if (nome.isPresent()) {
+            animal.setNome(nome.get());
+        }
+        return animalRepository.findAll(Example.of(animal), Sort.by("nome"));
+    }
 
     public void excluirAnimal(Cliente cliente) {
         Animal animal = new Animal();
