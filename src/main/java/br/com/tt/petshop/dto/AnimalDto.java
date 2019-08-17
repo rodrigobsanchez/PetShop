@@ -2,14 +2,12 @@ package br.com.tt.petshop.dto;
 
 import br.com.tt.petshop.enums.EspecieEnum;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 public class AnimalDto {
 
+    @Null(groups = OnPost.class)
     private Long id;
     @NotBlank(message = "Informe o nome do animal")
     @Size(min = 2, max = 100, message = "O nome deve conter de {min} a {max}")
@@ -27,6 +25,9 @@ public class AnimalDto {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.especie = especie;
+    }
+
+    public AnimalDto() {
     }
 
     public Long getClienteId() {
