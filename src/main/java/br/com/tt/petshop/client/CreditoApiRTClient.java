@@ -5,6 +5,7 @@ import br.com.tt.petshop.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -17,15 +18,19 @@ public class CreditoApiRTClient implements CreditoApiClient {
 
     private final RestTemplate restTemplate;
     private static final Logger LOGGER = LoggerFactory.getLogger(CreditoApiRTClient.class);
+    private final String creditoApiUrl;
 
-    public CreditoApiRTClient(RestTemplate restTemplate) {
+    public CreditoApiRTClient(RestTemplate restTemplate,
+                              @Value("${api.credito-api.url}") String creditoApiUrl) { // api.credito é uma variavel declarada no doc. Proprerties.
+        //é uma property.
         this.restTemplate = restTemplate;
+        this.creditoApiUrl = creditoApiUrl;
     }
 
     @Override
     public CreditoDto verificaSituacao(String cpf) throws BusinessException {
         URI url = URI
-                .create("https://imersao-credito-api.herokuapp.com/credito/"+cpf);
+                .create(String.format("%s/credito/%s" , creditoApiUrl, cpf));
 
         try {
             return restTemplate.getForObject(url, CreditoDto.class);

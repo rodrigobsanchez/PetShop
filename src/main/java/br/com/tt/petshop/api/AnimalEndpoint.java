@@ -1,7 +1,7 @@
 package br.com.tt.petshop.api;
 
+import br.com.tt.petshop.api.groups.OnPost;
 import br.com.tt.petshop.dto.AnimalDto;
-import br.com.tt.petshop.dto.OnPost;
 import br.com.tt.petshop.exception.BusinessException;
 import br.com.tt.petshop.exception.ClienteNotFoundException;
 import br.com.tt.petshop.exception.dto.ApiErrorDto;
@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;

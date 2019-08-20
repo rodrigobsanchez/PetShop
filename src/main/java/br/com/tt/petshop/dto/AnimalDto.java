@@ -1,5 +1,6 @@
 package br.com.tt.petshop.dto;
 
+import br.com.tt.petshop.api.groups.OnPost;
 import br.com.tt.petshop.enums.EspecieEnum;
 
 import javax.validation.constraints.*;

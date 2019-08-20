@@ -20,6 +20,12 @@ public class ClienteDto {
     // evitar colocar entidades dentros dos 'DTO's' se criar um Cliente dto é obrigatorio criar um dto para o Animal
     private List<AnimalDto> animais;
 
+    public ClienteDto(long id, String nome, String cpf) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+    }
+
     public static ClienteDto builder(Long id, String nome){
        ClienteDto dto = new ClienteDto();
        dto.setId(id);
@@ -33,6 +39,7 @@ public class ClienteDto {
         this.cpf = cpf;
         this.animais = animais;
     }
+
 
     public ClienteDto() {
     }
