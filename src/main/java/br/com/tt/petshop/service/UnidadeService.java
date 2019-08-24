@@ -39,4 +39,7 @@ public class UnidadeService {
     public void delete(Long id){
         unidadeRepository.deleteById(id);
     }
+    public void deleteById(Long id) {
+        unidadeRepository.deleteById(id);
+    }
 }

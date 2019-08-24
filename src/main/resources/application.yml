@@ -16,4 +16,3 @@ logging:
 api:
   credito-api:
     url: https://imersao-credito-api.herokuapp.com
-

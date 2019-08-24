@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebM
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,7 +28,7 @@ import org.springframework.ui.ModelMap;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class) // NAO confundir com o MockitoRunner... seria um Spring Runner Test.
 @WebMvcTest (controllers = ClienteEndpoint.class)
@@ -35,13 +36,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(ModelMapperConfig.class)
 public class ClienteEndpointTest {
 
+
+    private final String CPF_VALIDO = "333.444.555-66";
+    private final String NOME_VALIDO = "Fulano Santos";
+    private final Integer ID_VALIDO = 55;
+    private final Cliente CLIENTE_VALIDO = new Cliente(Long.valueOf(ID_VALIDO), NOME_VALIDO, CPF_VALIDO);
+
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private ClienteService clienteService;
-    @MockBean
-    private ModelMapper mapper;
+//    @MockBean
+//    private ModelMapper mapper;
 
     @Test
     public void deveRetornarListaClienteComSucesso() throws Exception {
@@ -59,7 +66,7 @@ public class ClienteEndpointTest {
     @Test
     public void deveRetornarListaComClienteFulano() throws Exception {
 
-        Mockito.when(clienteService.listar()).thenReturn((Arrays.asList(new Cliente(77L, "Fulano Silva", "000.111.222-33"))));
+        Mockito.when(clienteService.listar()).thenReturn(Arrays.asList(new Cliente(77L, "Fulano Silva", "000.111.222-33")));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/clientes"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -70,14 +77,23 @@ public class ClienteEndpointTest {
     }
     @Test
     public void deveCriarClienteComSucesso() throws Exception {
-        Cliente clienteSalvar = new Cliente (56L, "Fulano Silva Silva", "111.222.333-44");
+        Cliente clienteSalvar = new Cliente(56L, "Fulano Silva Silva", "111.222.333-44");
 
         Mockito.when(
-                clienteService.adicionar(clienteSalvar)).thenReturn(clienteSalvar);
-          ClienteDto clienteDto = ClienteDtoFactory.from(clienteSalvar);
+                clienteService.adicionar(clienteSalvar))
+                .thenReturn(clienteSalvar);
 
-        byte[] objectToJson = new ObjectMapper().writeValueAsBytes(new Cliente());
-        mockMvc.perform(MockMvcRequestBuilders.post("/clientes")
-                .content(objectToJson));
+        ClienteDto clienteDto = ClienteDtoFactory.from(clienteSalvar);
+
+        byte[] objectToJson = new ObjectMapper().writeValueAsBytes(clienteDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .post("/clientes")
+                        .content(objectToJson)
+                        .header("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE)
+        ).andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/clientes/56"))
+                .andExpect(content().string(""));
     }
 }

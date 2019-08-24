@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/clientes")
 
+
 public class ClienteEndpoint {
 
     private final ClienteService clienteService;
@@ -61,7 +62,7 @@ public class ClienteEndpoint {
     a qual seria uma 'pratica ruim'
      */
 
-    @PatchMapping(value = "/{id}")
+    @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity update(@RequestBody Cliente cliente, @PathVariable Long id) throws BusinessException {
         clienteService.update(id, cliente);
         return ResponseEntity.noContent().build();

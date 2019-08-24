@@ -31,32 +31,30 @@ public class UnidadeEndpoint {
     //    /unidades
 //    @RequestMapping(method = RequestMethod.GET)  --> @GetMapping
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Unidade> findAll(){
+    public List<Unidade> findAll() {
         return unidadeService.findAll();
     }
 
-
-//    /unidades/{id}
+    //    /unidades/{id}
     /*
     NAO PODE TER DOIS METODOS PARA O MESMO ENDEREÇO no caso aqui: /unidades
      */
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE) // para colocar variáveis como 'id' usa-se '{}'
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Unidade> findById(@PathVariable Long id) {
-        Optional<Unidade> unidadeOpt = unidadeService.findById(id);
-        if (unidadeOpt.isPresent()) { // isPresent() = @return {@code true} if there is a value present, otherwise {@code false}
-            return ResponseEntity.ok(unidadeOpt.get());
-            //ResponseEntity faz referencia aos https... numero 404-NOT FOUND...etc;
+        Optional<Unidade> unidadeOptional = unidadeService.findById(id);
+        if (unidadeOptional.isPresent()) {
+            return ResponseEntity.ok(unidadeOptional.get());
         }
         return ResponseEntity.notFound().build();
     }
 
 
-//    /unidades
-    //Para 'create' é necessario utulizar o '@ResquestBody'
+    //    /unidades
+//Para 'create' é necessario utulizar o '@ResquestBody'
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity create(@RequestBody Unidade unidade){
-        Unidade unidadeCriada = unidadeService.create(unidade) ;
-        URI uri = URI.create(String.format("/unidade/%d", unidadeCriada.getId()));
+    public ResponseEntity create(@RequestBody Unidade unidade) {
+        Unidade unidadeCriada = unidadeService.create(unidade);
+        URI uri = URI.create(String.format("/unidades/%d", unidadeCriada.getId()));
         return ResponseEntity.created(uri).build();
     }
     /*
@@ -65,19 +63,20 @@ public class UnidadeEndpoint {
       resource by describing its primary access mechanism (e.g., its network “location”).
      */
 
-//    /unidades/{id}
+    //    /unidades/{id}
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity updade(@RequestBody Unidade unidade, @PathVariable Long id){
+    public ResponseEntity update(@RequestBody Unidade unidade, @PathVariable Long id) {
 
-
-        unidade.setId(id);
+        unidade.setId(id);//TODO quando trocar para DTO...
         unidadeService.update(unidade);
+
         return ResponseEntity.noContent().build();
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id){
-      unidadeService.delete(id);
-      return ResponseEntity.noContent().build();
+    public ResponseEntity delete(@PathVariable Long id) {
+        unidadeService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

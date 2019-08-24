@@ -16,12 +16,14 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
+
     @Column(name ="NOME_CLIENTE")
     private String nome;
 
     //**************
     @Embedded
     private Cpf cpf;
+
     @Column(name = "INADIMPLENTE")
     private Boolean inadimplente;
 

@@ -5,6 +5,8 @@ import br.com.tt.petshop.model.vo.DataNascimento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,12 +19,17 @@ public class Animal {
     // nomear a header de 'id'
     @Column(name = "ID_ANIMAL")
     private Long id;
+
+    @NotBlank
     private String nome;
+
+
     @Embedded
     private DataNascimento dataNascimento;
 
     //make the relation to be an String
     @Enumerated(EnumType.STRING)
+    @NotNull
     private EspecieEnum especie;
 //    private List<Vacina> vacinas;
 //    private List<Procedimento> procedimentos;
@@ -57,9 +64,9 @@ public class Animal {
         this.nome = nome;
         this.dataNascimento = new DataNascimento(dataNascimento);
         this.especie = especie;
-        this.cliente = new Cliente(clientId, null , null, null, null);
-        this.unidade = new Unidade(null, null);
-        unidade.setId(1L);
+        this.cliente = new Cliente(clientId, null , null);
+//        this.unidade = new Unidade(null, null);
+//        unidade.setId(1L);
     }
 
 

@@ -57,16 +57,24 @@ public class AnimalEndpoint {
             @RequestBody @Validated(OnPost.class) AnimalDto animalDto)
             throws BusinessException {
 
-       //Animal animalCriado =  animalService.salvar(mapper.map(animalDto, Animal.class));
         Animal animalCriado =  animalService.salvar(animalDto);
-        URI location = URI.create(String.format("/animais/"));
+        URI location = URI.create(String.format("/animais/%d", animalCriado.getId()));
         return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping
+    @ApiOperation("Salva um animal")
+    public ResponseEntity put(
+            @ApiParam("Informações do animal a ser criado")
+            @RequestBody @Validated AnimalDto animalDto)
+            throws BusinessException {
+        return ResponseEntity.ok().build();
     }
 
     @ExceptionHandler(ClienteNotFoundException.class)
     public ResponseEntity handleClienteNotFoundException(ClienteNotFoundException e){
 
-        ApiErrorDto dto = new ApiErrorDto("cliente nao existe", String.format("O cliente id: %s nao foi encontrado"));
+        ApiErrorDto dto = new ApiErrorDto("cliente nao existe", String.format("O cliente id: %s nao foi encontrado", e.getClientId()));
         return ResponseEntity.unprocessableEntity().body(dto);
     }
 }
