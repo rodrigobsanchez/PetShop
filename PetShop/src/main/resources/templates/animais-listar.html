@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Animais</title>
+</head>
+<body>
+<h2>Animais: </h2>
+<ul th:each="animal : ${animais}">
+    <li th:object="${animal}">
+        <label th:text="*{nome}"/> -
+        <label th:text="*{dataNascimento}"/>
+
+<!--  <a th:href="@{/animal-excluir(id=${animal.cliente})}">X</a>-->
+
+    </li>
+</ul>
+
+<a th:href="@{/animais-adicionar(clientId=${param.clientId})}">Adicionar</a>
+</body>
+</html>
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Lista de Animais</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1 th:text="${sistema}"></h1>-->
+
+<!--<h2>Animais:</h2>-->
+
+<!--<ul th:each="animal : ${animais}">-->
+<!--    <li>-->
+<!--        <span th:text="*{animal.nome}"></span>-->
+<!--        - -->
+<!--        <span th:text="*{animal.dataNascimento}" ></span>-->
+<!--        - -->
+<!--        <span th:text="*{animal.especie}" ></span>-->
+
+
+<!--    </li>-->
+
+<!--</ul>-->
+<!--<a href="/animal-form">Adicionar Animal</a>-->
+
+<!--</body>-->
+<!--</html>-->
+

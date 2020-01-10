@@ -1,0 +1,46 @@
+
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<h1 th:text="${sistema}"></h1>
+
+<h2>Clientes:</h2>
+
+<ul th:each="cli : ${clientes}">
+    <li>
+        <a th:href="@{/animais-listar(clientId=${cli.id})}"
+           th:text="${cli.nome}"></a>
+        -
+        <span th:text="${cli.cpf}"></span>
+
+        <a th:href="@{/cliente-excluir(id=${cli.id})}">X</a>
+    </li>
+</ul>
+
+<a href="/cliente-adicionar">Adicionar</a>
+
+</body>
+</html>
+
+
+
+<!--<html xmlns:th="http://www.w3.org/1999/xhtml">-->
+<!--<body>-->
+
+<!--<h1 th:text="${sistema}"></h1>-->
+
+<!--    <h2>Clientes:</h2>-->
+<!--    <ul th:each="cli : ${clientes}">-->
+<!--        <li>-->
+<!--            <a th:href ="@{/animais-listar(clienteId=${cli.id})}" th:text="${cli.nome}" ></a>-->
+<!--            - -->
+<!--            <span th:text="${cli.cpf}" ></span>-->
+
+<!--            <a th:href="@{/cliente-excluir(id=${cli.id})}">X</a>-->
+<!--        </li>-->
+
+<!--    </ul>-->
+
+<!--   <a href="/cliente-adicionar">Adicionar</a>-->
+
+<!--</body>-->
+<!--</html>-->
